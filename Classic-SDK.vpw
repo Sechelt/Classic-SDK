@@ -1,0 +1,21 @@
+<!DOCTYPE Workspace SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpw.dtd">
+<Workspace Version="10.0" VendorName="SlickEdit">
+    <Projects>
+        <Project File="Apps/Apps.vpj"/>
+        <Project File="SDK/CBD/CBD.vpj"/>
+        <Project File="PlugIns/Dynamic/Brushs/DynamicBrushs.vpj"/>
+        <Project File="SDK/P/P.vpj"/>
+        <Project File="Apps/paint/paint.vpj"/>
+        <Project File="PlugIns/Pi/Pi.vpj"/>
+        <Project File="PlugIns/PlugIns.vpj"/>
+        <Project File="root.vpj"/>
+        <Project File="SDK/SDK.vpj"/>
+        <Project File="PlugIns/Static/Static.vpj"/>
+        <Project File="PlugIns/Static/Brushs/StaticBrushs.vpj"/>
+        <Project File="PlugIns/Static/Fills/StaticFills.vpj"/>
+        <Project File="PlugIns/Static/Pens/StaticPens.vpj"/>
+        <Project File="PlugIns/Static/Selections/StaticSelections.vpj"/>
+        <Project File="PlugIns/Static/Shapes/StaticShapes.vpj"/>
+        <Project File="SDK/W/W.vpj"/>
+    </Projects>
+</Workspace>
