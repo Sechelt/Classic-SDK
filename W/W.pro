@@ -27,7 +27,6 @@ HEADERS	+= \
         include/WColorPickerDialog.h \
         include/WColorPickerWidget.h \
         include/WColorButton.h \
-        include/WColorWidget.h \
         include/WCoordWidget.h \
         include/WDirectiveWidget.h \
         include/WDirSelectWidget.h \
@@ -73,7 +72,6 @@ SOURCES	+= \
         source/WColorButton.cpp \
         source/WColorPickerDialog.cpp \
         source/WColorPickerWidget.cpp \
-        source/WColorWidget.cpp \
         source/WCoordWidget.cpp \
         source/WDirectiveWidget.cpp \
         source/WDirSelectWidget.cpp \

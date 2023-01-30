@@ -4,10 +4,9 @@
 #include "WPaletteColorWidget.h"
 
 //
+// WColorSpectrumWidget
 //
-//
-
-WColorPickerWidget1::WColorPickerWidget1( const QColor &color, QWidget *pParent )
+WColorSpectrumWidget::WColorSpectrumWidget( const QColor &color, QWidget *pParent )
     : QWidget( pParent )
 {
     this->color = color;
@@ -16,7 +15,7 @@ WColorPickerWidget1::WColorPickerWidget1( const QColor &color, QWidget *pParent 
     setMinimumHeight( 40 );
 }
 
-void WColorPickerWidget1::setColor( const QColor &c )
+void WColorSpectrumWidget::setColor( const QColor &c )
 {
     color =  c;
 
@@ -25,7 +24,7 @@ void WColorPickerWidget1::setColor( const QColor &c )
     update();
 }
 
-void WColorPickerWidget1::mousePressEvent( QMouseEvent *pEvent )
+void WColorSpectrumWidget::mousePressEvent( QMouseEvent *pEvent )
 {
     if ( pEvent->button() != Qt::LeftButton )
     {
@@ -71,7 +70,7 @@ void WColorPickerWidget1::mousePressEvent( QMouseEvent *pEvent )
  *  
  * \author pharvey (12/4/22)
  */
-void WColorPickerWidget1::paintEvent( QPaintEvent * )
+void WColorSpectrumWidget::paintEvent( QPaintEvent * )
 {
     QPainter painter( this );
     QPen pen;
@@ -153,9 +152,9 @@ void WColorPickerWidget1::paintEvent( QPaintEvent * )
  * \param x 
  * \param y 
  * 
- * \return WColorPickerWidget1::Polar 
+ * \return WColorSpectrumWidget::Polar 
  */
-WColorPickerWidget1::Polar WColorPickerWidget1::cartesianToPolar( qreal x, qreal y )
+WColorSpectrumWidget::Polar WColorSpectrumWidget::cartesianToPolar( qreal x, qreal y )
 {
     // θ = tan-1 ( y / x )
     qreal nAngle = qAtan2( y, x );
@@ -174,10 +173,9 @@ WColorPickerWidget1::Polar WColorPickerWidget1::cartesianToPolar( qreal x, qreal
 }
 
 //
+// WColorPickerSwatchWidget
 //
-//
-
-WColorPickerWidget2::WColorPickerWidget2( const QColor &color, QWidget *pParent )
+WColorPickerSwatchWidget::WColorPickerSwatchWidget( const QColor &color, QWidget *pParent )
     : QWidget( pParent )
 {
     this->color = color;
@@ -186,30 +184,32 @@ WColorPickerWidget2::WColorPickerWidget2( const QColor &color, QWidget *pParent 
     setFixedHeight( 16 );
 }
 
-void WColorPickerWidget2::setColor( const QColor &c )
+void WColorPickerSwatchWidget::slotColor( const QColor &c )
 {
     color =  c;
     update();
 }
 
-void WColorPickerWidget2::paintEvent( QPaintEvent * )
+void WColorPickerSwatchWidget::paintEvent( QPaintEvent * )
 {
     QPainter painter( this );
     painter.setBrush( QBrush( color ) );
     painter.drawRect( rect() );
 }
 
-//
-//
-//
 
-WColorPickerWidget::WColorPickerWidget( const QColor &color, QWidget *pParent, bool bShowPaletteColor )
+//
+// WColorPickerWidget
+//
+WColorPickerWidget::WColorPickerWidget( const QColor &c, QWidget *pParent, bool bShowPaletteColor )
     : QWidget( pParent )
 {
     int nH = 0;
     int nS = 0;
     int nV = 0;
     int nA = 0;
+
+    color = c;
 
     color.getHsv( &nH, &nS, &nV, &nA );
 
@@ -218,9 +218,10 @@ WColorPickerWidget::WColorPickerWidget( const QColor &color, QWidget *pParent, b
     QGridLayout *pLayoutControls    = new QGridLayout();
 
     // picker
-    pColorPickerWidget = new WColorPickerWidget1(color, this);
-    pColorPickerWidget->setToolTip( tr("select Hue and Saturation") );
-    pLayoutMain->addWidget( pColorPickerWidget );
+    pSpectrum = new WColorSpectrumWidget(color, this);
+    pSpectrum->setToolTip( tr("select Hue and Saturation") );
+    pLayoutMain->addWidget( pSpectrum );
+    connect( pSpectrum, SIGNAL(signalValueChanged(const QColor&)), SLOT(slotSpectrum(const QColor&)) );
 
     // controls
     QLabel *pLabelHue = new QLabel( tr("Hue:"), this );
@@ -285,38 +286,30 @@ WColorPickerWidget::WColorPickerWidget( const QColor &color, QWidget *pParent, b
 
     pLayoutMain->addLayout( pLayoutControls );
 
-    // swatch
-    pSwatch = new WColorPickerWidget2( color, this );
-    pLayoutMain->addWidget( pSwatch );
-
-    pLayoutTop->addLayout( pLayoutMain );
-
-    // Palette Color (optional)
-    // - WPaletteColorWidget should never show in response to select a color - others - probably yes
-    if ( bShowPaletteColor ) 
-    {
-        QVBoxLayout *pLayout = new QVBoxLayout();
-        pLayout->addWidget( new QLabel( tr("User Defined"), this ) );
-
-        pPaletteColor = new WPaletteColorWidget( this, false );
-        pLayout->addWidget( pPaletteColor, 10 );
-        pLayoutTop->addLayout( pLayout );
-
-        connect( g_PaletteColors, SIGNAL(signalModifiedCurrent()), SLOT(slotPaletteColor()) );
-    }
-
-    // connect stuff
-    connect( pColorPickerWidget, SIGNAL(signalValueChanged(const QColor&)), SLOT(slotPicker(const QColor&)) );
-
     connect( pSliderHue, SIGNAL(valueChanged(int)), SLOT(slotHue(int)) );
     connect( pSliderSat, SIGNAL(valueChanged(int)), SLOT(slotSat(int)) );
     connect( pSliderVal, SIGNAL(valueChanged(int)), SLOT(slotVal(int)) );
     connect( pSliderAlp, SIGNAL(valueChanged(int)), SLOT(slotAlp(int)) );
 
-    connect( pSpinHue, SIGNAL(valueChanged(int)), SLOT(slotHue(int)) );
-    connect( pSpinSat, SIGNAL(valueChanged(int)), SLOT(slotSat(int)) );
-    connect( pSpinVal, SIGNAL(valueChanged(int)), SLOT(slotVal(int)) );
-    connect( pSpinAlp, SIGNAL(valueChanged(int)), SLOT(slotAlp(int)) );
+    // swatch
+    pSwatch = new WColorPickerSwatchWidget( color, this );
+    pLayoutMain->addWidget( pSwatch );
+
+    pLayoutTop->addLayout( pLayoutMain );
+
+    // Palette Color (optional)
+    // - WPaletteColorWidget should never show in response to select a color for color palette - others - probably yes
+    if ( bShowPaletteColor ) 
+    {
+        QVBoxLayout *pLayout = new QVBoxLayout();
+        pLayout->addWidget( new QLabel( tr("User Defined"), this ) );
+
+        pPalette = new WPaletteColorWidget( this );
+        pLayout->addWidget( pPalette, 10 );
+        pLayoutTop->addLayout( pLayout );
+
+        connect( pPalette, SIGNAL(signalSelected(const QColor &)), SLOT(slotPalette(const QColor &)) );
+    }
 }
 
 /*!
@@ -328,13 +321,14 @@ WColorPickerWidget::WColorPickerWidget( const QColor &color, QWidget *pParent, b
  * 
  * \param color 
  */
-void WColorPickerWidget::slotPicker( const QColor &color )
+void WColorPickerWidget::slotSpectrum( const QColor &c )
 {
     int nHue    = 0;
     int nSat    = 0;
     int nVal    = 0;
     int nAlp    = 0;
 
+    color = c;
     color.getHsv( &nHue, &nSat, &nVal, &nAlp );
 
     pSliderHue->setValue( nHue );
@@ -347,20 +341,20 @@ void WColorPickerWidget::slotPicker( const QColor &color )
     pSpinVal->setValue( nVal );
     pSpinAlp->setValue( nAlp );
 
-    pSwatch->setColor( color );
+    pSwatch->slotColor( color );
 }
 
-void WColorPickerWidget::slotPaletteColor()
+void WColorPickerWidget::slotPalette( const QColor &c )
 {
-    QColor color = g_PaletteColors->getCurrent(); 
-
     int nHue    = 0;
     int nSat    = 0;
     int nVal    = 0;
     int nAlp    = 0;
 
+    // update color
+    color = c;
     color.getHsv( &nHue, &nSat, &nVal, &nAlp );
-
+    // update controls
     pSliderHue->setValue( nHue );
     pSliderSat->setValue( nSat );
     pSliderVal->setValue( nVal );
@@ -371,7 +365,8 @@ void WColorPickerWidget::slotPaletteColor()
     pSpinVal->setValue( nVal );
     pSpinAlp->setValue( nAlp );
 
-    pSwatch->setColor( color );
+    pSpectrum->setColor( color );
+    pSwatch->slotColor( color );
 }
 
 void WColorPickerWidget::slotHue( int n )
@@ -381,14 +376,16 @@ void WColorPickerWidget::slotHue( int n )
     int nV = 0;
     int nA = 0;
 
-    QColor color = pColorPickerWidget->getColor();
+    // update color
+    color = pSpectrum->getColor();
     color.getHsv( &nH, &nS, &nV, &nA );
     color.setHsv( n, nS, nV, nA );
+    // update controls
+    pSliderHue->setValue( n );
+    pSpinHue->setValue( n );
 
-    pSliderHue->setValue( nH );
-    pSpinHue->setValue( nH );
-    pColorPickerWidget->setColor( color );
-    pSwatch->setColor( color );
+    pSpectrum->setColor( color );
+    pSwatch->slotColor( color );
 }
 
 void WColorPickerWidget::slotSat( int n )
@@ -398,14 +395,16 @@ void WColorPickerWidget::slotSat( int n )
     int nV = 0;
     int nA = 0;
 
-    QColor color = pColorPickerWidget->getColor();
+    // update color
+    color = pSpectrum->getColor();
     color.getHsv( &nH, &nS, &nV, &nA );
     color.setHsv( nH, n, nV, nA );
+    // update controls
+    pSliderSat->setValue( n );
+    pSpinSat->setValue( n );
 
-    pSliderSat->setValue( nS );
-    pSpinSat->setValue( nS );
-    pColorPickerWidget->setColor( color );
-    pSwatch->setColor( color );
+    pSpectrum->setColor( color );
+    pSwatch->slotColor( color );
 }
 
 void WColorPickerWidget::slotVal( int n )
@@ -415,14 +414,16 @@ void WColorPickerWidget::slotVal( int n )
     int nV = 0;
     int nA = 0;
 
-    QColor color = pColorPickerWidget->getColor();
+    // update color
+    color = pSpectrum->getColor();
     color.getHsv( &nH, &nS, &nV, &nA );
     color.setHsv( nH, nS, n, nA );
+    // update controls
+    pSliderVal->setValue( n );
+    pSpinVal->setValue( n );
 
-    pSliderVal->setValue( nV );
-    pSpinVal->setValue( nV );
-    pColorPickerWidget->setColor( color );
-    pSwatch->setColor( color );
+    pSpectrum->setColor( color );
+    pSwatch->slotColor( color );
 }
 
 void WColorPickerWidget::slotAlp( int n )
@@ -432,14 +433,16 @@ void WColorPickerWidget::slotAlp( int n )
     int nV = 0;
     int nA = 0;
 
-    QColor color = pColorPickerWidget->getColor();
+    // update color
+    color = pSpectrum->getColor();
     color.getHsv( &nH, &nS, &nV, &nA );
     color.setHsv( nH, nS, nV, n );
+    // update controls
+    pSliderAlp->setValue( n );
+    pSpinAlp->setValue( n );
 
-    pSliderAlp->setValue( nA );
-    pSpinAlp->setValue( nA );
-    pColorPickerWidget->setColor( color );
-    pSwatch->setColor( color );
+    pSpectrum->setColor( color );
+    pSwatch->slotColor( color );
 }
 
 

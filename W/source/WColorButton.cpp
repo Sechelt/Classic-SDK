@@ -16,8 +16,10 @@ WColorButton::WColorButton( const QColor &c, QWidget *pParent, Types n )
 
 void WColorButton::setValue( const QColor &color )
 {
+    if ( this->color == color ) return;
     this->color = color;
     setIcon( getIcon() );
+    emit signalChanged( color );
 }
 
 QPixmap WColorButton::getIcon( int nSize )
@@ -82,21 +84,8 @@ void WColorButton::slotClicked()
     QColor colorNew = WColorPickerDialog::getColor( &bOk, color, this, true );
     if ( bOk )
     {
-        color = colorNew;
-        setIcon( getIcon() );
-        emit signalChanged( color );
+        setValue( colorNew );
     }
-
-/*
-
-    QColor c = QColorDialog::getColor( color, this );
-    if ( c.isValid() ) 
-    {
-        color = c;
-        setIcon( getIcon() );
-        emit signalChanged( color );
-    } 
-*/
 }
 
 

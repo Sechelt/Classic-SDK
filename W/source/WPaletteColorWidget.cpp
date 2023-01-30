@@ -6,6 +6,9 @@
 #define CellWidth 16
 #define CellHeight 16
 
+//
+// WPaletteColorMatrix
+//
 WPaletteColorMatrix::WPaletteColorMatrix( QWidget *pParent )
     : QWidget( pParent )
 {
@@ -42,25 +45,7 @@ void WPaletteColorMatrix::mousePressEvent( QMouseEvent *pEvent )
 
     if ( nIndex >= vectorColors.count() ) return;
 
-    g_PaletteColors->setCurrent( nIndex );
-}
-
-void WPaletteColorMatrix::mouseMoveEvent( QMouseEvent *pEvent )
-{
-    if ( pEvent->button() != Qt::LeftButton )
-    {
-        QWidget::mouseMoveEvent( pEvent );
-        return;
-    }
-}
-
-void WPaletteColorMatrix::mouseReleaseEvent( QMouseEvent *pEvent )
-{
-    if ( pEvent->button() != Qt::LeftButton )
-    {
-        QWidget::mouseReleaseEvent( pEvent );
-        return;
-    }
+    emit signalSelected( vectorColors[nIndex] );
 }
 
 /*!
@@ -89,7 +74,11 @@ void WPaletteColorMatrix::mouseDoubleClickEvent( QMouseEvent *pEvent )
 
     if ( nIndex < vectorColors.count() ) color = vectorColors[nIndex];
     QColor colorNew = WColorPickerDialog::getColor( &bOk, color, this );
-    if ( bOk ) g_PaletteColors->setCurrent( nIndex, colorNew );
+    if ( bOk )
+    {
+        g_PaletteColors->setValue( nIndex, colorNew );
+        emit signalSelected( colorNew );
+    }
 }
 
 void WPaletteColorMatrix::paintEvent( QPaintEvent *pEvent )
@@ -148,25 +137,18 @@ int WPaletteColorMatrix::getIndex( const QPoint &point )
 }
 
 //
+// WPaletteColorWidget
 //
-//
-
-WPaletteColorWidget::WPaletteColorWidget( QWidget *pParent, bool bShowCurrent )
+WPaletteColorWidget::WPaletteColorWidget( QWidget *pParent )
     : QWidget( pParent )
 {
     QVBoxLayout *pLayoutTop = new QVBoxLayout( this );
-
-    // current
-    if ( bShowCurrent )
-    {
-        pCurrent = new WColorWidget( this );
-        pLayoutTop->addWidget( pCurrent );
-    }
 
     // palette
     {
         WPaletteColorMatrix *p = new WPaletteColorMatrix( this );
         pLayoutTop->addWidget( p, 11 );
+        connect( p, SIGNAL(signalSelected(const QColor &)), SIGNAL(signalSelected(const QColor &)) );
     }
 
     // tool bar

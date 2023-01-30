@@ -18,23 +18,8 @@ WPaletteColor::~WPaletteColor()
 }
 
 
-// set current color
-void WPaletteColor::setCurrent( const QColor &color )
-{
-    this->color = color;
-    emit signalModifiedCurrent();
-}
-
-// set color and make current
-void WPaletteColor::setCurrent( int nIndex )
-{
-    Q_ASSERT( nIndex >= 0 && nIndex < vectorColors.count() );
-    color = vectorColors[nIndex];
-    emit signalModifiedCurrent();
-}
-
 // set color
-void WPaletteColor::setCurrent( int nIndex, const QColor &color )
+void WPaletteColor::setValue( int nIndex, const QColor &color )
 {
     Q_ASSERT( nIndex >= 0 );
     
@@ -46,8 +31,6 @@ void WPaletteColor::setCurrent( int nIndex, const QColor &color )
 
     // assume we changed color
     vectorColors[nIndex] = color;
-    this->color = color;
-    emit signalModifiedCurrent();
     setModifiedPalette( true );
 }
 
@@ -312,7 +295,6 @@ bool WPaletteColor::doLoad( const QString &s )
 
         domNode = domNode.nextSibling();
     }
-    emit signalModifiedCurrent();
     setModifiedPalette( false );
     return true;
 }

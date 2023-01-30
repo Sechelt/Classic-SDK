@@ -24,7 +24,7 @@ void WImageButton::paintEvent( QPaintEvent *pEvent )
     if ( !image.isNull() )
     { 
         QImage imageScaled = image.scaled( width(), height(), Qt::KeepAspectRatio );
-        QRect rectImage( 0, 0, image.width(), image.height() );
+        QRect rectImage( 0, 0, imageScaled.width(), imageScaled.height() );
         rectImage.moveCenter( rect().center() );
 
         painter.drawImage( rectImage, imageScaled );

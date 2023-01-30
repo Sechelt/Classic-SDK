@@ -8,15 +8,12 @@
 #               the *.pri files to ensure that the build settings
 #               are as desired.
 #
-# \sa           Euphemia.pri
+# \sa           Classic-SDK.pri
 # #########################################################
 
-include(Euphemia.pri)
+include(Classic-SDK.pri)
 
 TEMPLATE    = subdirs
 SUBDIRS		= \
-            SDK \
-            PlugIns \
-            Apps
-
+                    W
 		

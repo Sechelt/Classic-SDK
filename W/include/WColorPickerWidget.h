@@ -8,11 +8,11 @@
 
 class WPaletteColorWidget;
 
-class WColorPickerWidget1 : public QWidget
+class WColorSpectrumWidget : public QWidget
 {
     Q_OBJECT
 public:
-    WColorPickerWidget1( const QColor &color, QWidget *pParent );
+    WColorSpectrumWidget( const QColor &color, QWidget *pParent );
 
     void setColor( const QColor & ); 
 
@@ -38,15 +38,14 @@ private:
     Polar cartesianToPolar(qreal x, qreal y);
 };
 
-class WColorPickerWidget2 : public QWidget
+class WColorPickerSwatchWidget : public QWidget
 {
     Q_OBJECT
 public:
-    WColorPickerWidget2( const QColor &color, QWidget *pParent );
+    WColorPickerSwatchWidget( const QColor &color, QWidget *pParent );
 
-    void setColor( const QColor & ); 
-
-    QColor getColor() { return color; }
+public slots:
+    void slotColor( const QColor & ); 
 
 protected:
     QColor color;
@@ -60,12 +59,13 @@ class WColorPickerWidget : public QWidget
 public:
     WColorPickerWidget( const QColor &color, QWidget *pParent, bool bShowPaletteColor = false );
 
-    QColor getColor() { return pColorPickerWidget->getColor(); }
+    QColor getColor() { return color; }
 
 protected:
-    WColorPickerWidget1 *pColorPickerWidget;
-    WColorPickerWidget2 *pSwatch;
-    WPaletteColorWidget *pPaletteColor = nullptr;
+    QColor color;
+    WColorSpectrumWidget *pSpectrum;
+    WColorPickerSwatchWidget *pSwatch;
+    WPaletteColorWidget *pPalette = nullptr;
 
     QSlider *pSliderHue;
     QSlider *pSliderSat;
@@ -78,9 +78,8 @@ protected:
     QSpinBox *pSpinAlp;
 
 protected slots:
-    void slotPicker( const QColor & );
-    void slotPaletteColor();
-     
+    void slotSpectrum( const QColor & );
+    void slotPalette( const QColor & );
     void slotHue( int );
     void slotSat( int );
     void slotVal( int );

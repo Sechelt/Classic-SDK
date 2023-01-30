@@ -45,7 +45,7 @@
                 MenuCaption="E&amp;xecute"
                 SaveOption="SaveNone"
                 RunFromDir="%rw">
-                <Exec CmdLine='"root.exe"'/>
+                <Exec CmdLine='"Classic-SDK.exe"'/>
             </Target>
         </Menu>
     </Config>
@@ -53,30 +53,33 @@
         <Folder
             Name="Source Files"
             Filters="*.c;*.C;*.cc;*.cpp;*.cp;*.cxx;*.c++;*.prg;*.pas;*.dpr;*.asm;*.s;*.bas;*.java;*.cs;*.sc;*.scala;*.e;*.cob;*.html;*.rc;*.tcl;*.py;*.pl;*.d;*.m;*.mm;*.go;*.groovy;*.gsh"
-            GUID="{BA1844AE-F991-423C-AF49-306754155B24}"></Folder>
+            GUID="{1AE345C2-C058-4832-BAE3-2CA4181670E0}"/>
         <Folder
             Name="Header Files"
             Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.h++;*.inc;*.sh;*.cpy;*.if"
-            GUID="{4A9ED8BD-F7E1-4DDC-B6EB-00C05310807D}">
-            <F N="CodeByDesign.h"/>
+            GUID="{7248E2E1-C40B-4008-BC97-BCB7F15EADB8}">
+            <F N="Classic-SDK.h"/>
         </Folder>
         <Folder
             Name="Resource Files"
             Filters="*.ico;*.cur;*.dlg"
-            GUID="{C37D5B2E-2BB2-4C02-9D2B-D4388D7BBD7D}"/>
+            GUID="{126D8D4E-9B61-4D3F-AB93-86610E43973C}"/>
         <Folder
             Name="Bitmaps"
             Filters="*.bmp"
-            GUID="{5D7E5148-710F-4298-90C0-93BFC29570DC}"/>
+            GUID="{3DCF58E0-9529-40AF-8B25-32E4992D69CC}"/>
         <Folder
             Name="Other Files"
             Filters=""
-            GUID="{E842AD87-602A-4C4B-A7B6-4FCCD88F4FFD}">
+            GUID="{9C2C0438-8DF7-4F60-96BC-40668145B2D4}">
+            <F N=".gitignore"/>
+            <F N="Classic-SDK.pri"/>
+            <F N="Classic-SDK.pro"/>
             <F N="common.pri"/>
             <F N="config.pri"/>
             <F N="defines.pri"/>
-            <F N="Euphemia.pri"/>
-            <F N="Euphemia.pro"/>
+            <F N="LICENSE"/>
+            <F N="README.md"/>
         </Folder>
     </Files>
     <List Name="RTE">

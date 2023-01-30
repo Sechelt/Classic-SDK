@@ -63,7 +63,6 @@
             <F N="source/WColorButton.cpp"/>
             <F N="source/WColorPickerDialog.cpp"/>
             <F N="source/WColorPickerWidget.cpp"/>
-            <F N="source/WColorWidget.cpp"/>
             <F N="source/WCoordWidget.cpp"/>
             <F N="source/WDirectiveWidget.cpp"/>
             <F N="source/WDirSelectWidget.cpp"/>
@@ -113,7 +112,6 @@
             <F N="include/WColorButton.h"/>
             <F N="include/WColorPickerDialog.h"/>
             <F N="include/WColorPickerWidget.h"/>
-            <F N="include/WColorWidget.h"/>
             <F N="include/WCoordWidget.h"/>
             <F N="include/WDirectiveWidget.h"/>
             <F N="include/WDirSelectWidget.h"/>
