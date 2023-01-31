@@ -17,6 +17,7 @@ WColorSpectrumWidget::WColorSpectrumWidget( const QColor &color, QWidget *pParen
 
 void WColorSpectrumWidget::setColor( const QColor &c )
 {
+    if ( color == c ) return;
     color =  c;
 
     // would be nice to find the pos of the color and adjust this->point
@@ -175,10 +176,10 @@ WColorSpectrumWidget::Polar WColorSpectrumWidget::cartesianToPolar( qreal x, qre
 //
 // WColorPickerSwatchWidget
 //
-WColorPickerSwatchWidget::WColorPickerSwatchWidget( const QColor &color, QWidget *pParent )
+WColorPickerSwatchWidget::WColorPickerSwatchWidget( const QColor &c, QWidget *pParent )
     : QWidget( pParent )
 {
-    this->color = color;
+    color = c;
 
     setMinimumWidth( 16 );
     setFixedHeight( 16 );
@@ -186,6 +187,7 @@ WColorPickerSwatchWidget::WColorPickerSwatchWidget( const QColor &color, QWidget
 
 void WColorPickerSwatchWidget::slotColor( const QColor &c )
 {
+    if ( color == c ) return;
     color =  c;
     update();
 }
@@ -239,7 +241,7 @@ WColorPickerWidget::WColorPickerWidget( const QColor &c, QWidget *pParent, bool 
     pSliderVal = new QSlider( Qt::Horizontal, this );
     pSliderAlp = new QSlider( Qt::Horizontal, this );
 
-    pSliderHue->setRange( 0, 359 ); // Hue is 359
+    pSliderHue->setRange( 0, 359 ); // Hue max is 359
     pSliderSat->setRange( 0, 255 );
     pSliderVal->setRange( 0, 255 );
     pSliderAlp->setRange( 0, 255 );
@@ -269,7 +271,7 @@ WColorPickerWidget::WColorPickerWidget( const QColor &c, QWidget *pParent, bool 
     pSpinVal->setMinimum( 0 );
     pSpinAlp->setMinimum( 0 );
 
-    pSpinHue->setMaximum( 359 ); // Hue is 359
+    pSpinHue->setMaximum( 359 ); // Hue max is 359
     pSpinSat->setMaximum( 255 );
     pSpinVal->setMaximum( 255 );
     pSpinAlp->setMaximum( 255 );
@@ -369,77 +371,73 @@ void WColorPickerWidget::slotPalette( const QColor &c )
     pSwatch->slotColor( color );
 }
 
-void WColorPickerWidget::slotHue( int n )
+void WColorPickerWidget::slotHue( int nH )
 {
-    int nH = 0;
+    int n  = 0;
     int nS = 0;
     int nV = 0;
     int nA = 0;
 
     // update color
-    color = pSpectrum->getColor();
-    color.getHsv( &nH, &nS, &nV, &nA );
-    color.setHsv( n, nS, nV, nA );
+    color.getHsv( &n, &nS, &nV, &nA );
+    color.setHsv( nH, nS, nV, nA );
     // update controls
-    pSliderHue->setValue( n );
-    pSpinHue->setValue( n );
+    pSliderHue->setValue( nH );
+    pSpinHue->setValue( nH );
 
     pSpectrum->setColor( color );
     pSwatch->slotColor( color );
 }
 
-void WColorPickerWidget::slotSat( int n )
+void WColorPickerWidget::slotSat( int nS )
 {
     int nH = 0;
-    int nS = 0;
+    int n  = 0;
     int nV = 0;
     int nA = 0;
 
     // update color
-    color = pSpectrum->getColor();
-    color.getHsv( &nH, &nS, &nV, &nA );
-    color.setHsv( nH, n, nV, nA );
+    color.getHsv( &nH, &n, &nV, &nA );
+    color.setHsv( nH, nS, nV, nA );
     // update controls
-    pSliderSat->setValue( n );
-    pSpinSat->setValue( n );
+    pSliderSat->setValue( nS );
+    pSpinSat->setValue( nS );
 
     pSpectrum->setColor( color );
     pSwatch->slotColor( color );
 }
 
-void WColorPickerWidget::slotVal( int n )
+void WColorPickerWidget::slotVal( int nV )
 {
     int nH = 0;
     int nS = 0;
-    int nV = 0;
+    int n  = 0;
     int nA = 0;
 
     // update color
-    color = pSpectrum->getColor();
-    color.getHsv( &nH, &nS, &nV, &nA );
-    color.setHsv( nH, nS, n, nA );
+    color.getHsv( &nH, &nS, &n, &nA );
+    color.setHsv( nH, nS, nV, nA );
     // update controls
-    pSliderVal->setValue( n );
-    pSpinVal->setValue( n );
+    pSliderVal->setValue( nV );
+    pSpinVal->setValue( nV );
 
     pSpectrum->setColor( color );
     pSwatch->slotColor( color );
 }
 
-void WColorPickerWidget::slotAlp( int n )
+void WColorPickerWidget::slotAlp( int nA )
 {
     int nH = 0;
     int nS = 0;
     int nV = 0;
-    int nA = 0;
+    int n  = 0;
 
     // update color
-    color = pSpectrum->getColor();
-    color.getHsv( &nH, &nS, &nV, &nA );
-    color.setHsv( nH, nS, nV, n );
+    color.getHsv( &nH, &nS, &nV, &n );
+    color.setHsv( nH, nS, nV, nA );
     // update controls
-    pSliderAlp->setValue( n );
-    pSpinAlp->setValue( n );
+    pSliderAlp->setValue( nA );
+    pSpinAlp->setValue( nA );
 
     pSpectrum->setColor( color );
     pSwatch->slotColor( color );
