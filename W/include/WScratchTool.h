@@ -3,7 +3,21 @@
 
 #include "W.h"
 
-#include "W.h"
+class WScratchSwatch : public QWidget
+{
+    Q_OBJECT
+public:
+    WScratchSwatch( QWidget *pParent );
+
+    void setImage( const QImage &image );
+
+protected:
+    void paintEvent( QPaintEvent *pEvent );
+
+private:
+    QImage image;
+};
+
 
 class WScratchTool : public QWidget
 {
@@ -11,15 +25,33 @@ class WScratchTool : public QWidget
 public:
     WScratchTool( QWidget *pParent );
 
+    void setMax( int );
+
+    QImage getImage();
+
+    void doAppend( const QImage & );
+    void doClear();
+    void doEnableAdd( bool b = true );
+
+signals:
+    void signalAdd();
+    void signalPaste( const QImage & );
+
 protected:
     QVector<QImage> vectorImages;
 
-    QStackedWidget *    pStackedWidget;
+    WScratchSwatch *    pSwatch;
     QSlider *           pSlider;
+    QToolButton *pAdd;
+    QToolButton *pRemove;
+    QToolButton *pPaste;
+
+    int nMax = 10;
 
 protected slots:
+    void slotSlider( int );
     void slotRemove();
-    void slotAdd();
+    void slotPaste();
 };
 
 #endif 
