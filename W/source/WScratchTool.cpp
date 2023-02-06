@@ -55,7 +55,7 @@ WScratchTool::WScratchTool( QWidget *pParent )
 
         pAdd->setEnabled( false );
         pRemove->setEnabled( false );
-        pPaste->setEnabled( true );
+        pPaste->setEnabled( false );
 
         pLayoutToolBar->addWidget( pAdd );
         pLayoutToolBar->addWidget( pRemove );
@@ -80,17 +80,26 @@ void WScratchTool::setMax( int n )
 void WScratchTool::doAppend( const QImage &image )
 {
     vectorImages.append( image );
-    pSlider->setMaximum( pSlider->maximum() + 1 );
-    pSlider->setValue( pSlider->maximum() );
-    pRemove->setEnabled( true );
+    if ( vectorImages.count() > 1 )
+    {
+        pSlider->setMaximum( pSlider->maximum() + 1 );
+        pSlider->setValue( pSlider->maximum() );
+    }
+    else
+    {
+        pRemove->setEnabled( true );
+        pPaste->setEnabled( true );
+    }
     pSwatch->setImage( image );
 }
 
 void WScratchTool::doClear()
 {
-    pSlider->setMaximum( 0 );
     vectorImages.clear();
+    pSlider->setMaximum( 0 );
     pRemove->setEnabled( false );
+    pPaste->setEnabled( false );
+    pSwatch->setImage( QImage() );
 }
 
 void WScratchTool::doEnableAdd( bool b )
@@ -100,23 +109,44 @@ void WScratchTool::doEnableAdd( bool b )
 
 void WScratchTool::slotSlider( int n )
 {
-// qInfo() << "[" << __FILE__ << "][" << __FUNCTION__ << "][" << __LINE__ <<"] Slider:" << n << " Count:" << vectorImages.count();
     if ( n >= vectorImages.count() ) return;
     pSwatch->setImage( vectorImages.at( n ) );
 }
 
 void WScratchTool::slotRemove()
 {
+    // must have an image to remove
+    Q_ASSERT( vectorImages.count() );
+
+    // current index
     int n = pSlider->value();
-    if ( n >= vectorImages.count() ) return;
+    Q_ASSERT( n < vectorImages.count() );
+
+    // remove image
     vectorImages.remove( n );
-    if ( pSlider->maximum() > 0 ) pSlider->setMaximum( pSlider->maximum() - 1 );
+
+    // sync interface
+    if ( vectorImages.count() )
+    {
+        pSlider->setMaximum( vectorImages.count() - 1 );
+        pSwatch->setImage( vectorImages.at( pSlider->value() ) );
+    }
+    else
+    {
+        doClear();
+    }
 }
 
 void WScratchTool::slotPaste()
 {
+    // must have an image to remove
+    Q_ASSERT( vectorImages.count() );
+
+    // current index
     int n = pSlider->value();
-    if ( n >= vectorImages.count() ) return;
+    Q_ASSERT( n < vectorImages.count() );
+
+    // tell folks that care
     emit signalPaste( vectorImages.at( n ) );
 }
 
