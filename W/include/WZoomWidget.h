@@ -42,7 +42,7 @@ public:
 
 
 signals:
-    void signalZoom( int nFit, int nZoom );
+    void signalZoom( WZoomWidget::FitTypes nFit, int nZoom );
 
 protected:
     int         nMin;

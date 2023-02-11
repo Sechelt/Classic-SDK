@@ -17,6 +17,7 @@ void WScratchSwatch::paintEvent( QPaintEvent *pEvent )
 
     if ( image.isNull() ) return;
     QPainter painter( this );
+    painter.fillRect( rect(), QBrush( QImage( ":W/Transparent" ) ) );
     painter.drawImage( QRect( 0, 0, rect().width(), rect().height() ), image );
 }
 

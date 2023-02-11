@@ -271,6 +271,7 @@
 	<file alias="ToBack48x48">images/ToBack48x48.png</file>
 	<file alias="ToFront16x16">images/ToFront16x16.png</file>
 	<file alias="ToFront48x48">images/ToFront48x48.png</file>
+	<file alias="Transparent">images/Transparent.png</file>
 	<file alias="UMLAssociation16x16">images/UMLAssociation16x16.png</file>
 	<file alias="Underline16x16">images/Underline16x16.png</file>
 	<file alias="Underline48x48">images/Underline48x48.png</file>
