@@ -15,7 +15,7 @@ WZoomWidget::WZoomWidget( QWidget *pParent, int n )
     // pMinus->setAutoRepeat( true  );
     // pMinus->setAutoRepeatInterval( 33 );
     // pMinus->setAutoRepeatDelay( 0 );
-    pMinus->setIcon( QIcon( ":W/minus" ) );
+    pMinus->setIcon( QIcon( ":W/ZoomOut48x48" ) );
     pLayout->addWidget( pMinus );
 
     pSlider = new QSlider( Qt::Horizontal, this );
@@ -30,7 +30,7 @@ WZoomWidget::WZoomWidget( QWidget *pParent, int n )
     // pPlus->setAutoRepeat( true  );
     // pPlus->setAutoRepeatInterval( 33 );
     // pPlus->setAutoRepeatDelay( 0 );
-    pPlus->setIcon( QIcon( ":W/plus" ) );
+    pPlus->setIcon( QIcon( ":W/ZoomIn48x48" ) );
     pLayout->addWidget( pPlus );
 
     pLabel = new QLabel( this );

@@ -5,4 +5,4 @@
 qrc_*
 Makefile
 lib
-
+*.gz
