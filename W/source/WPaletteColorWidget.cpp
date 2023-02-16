@@ -165,9 +165,9 @@ WPaletteColorWidget::WPaletteColorWidget( QWidget *pParent )
         pSaveAs->setIcon( QIcon( ":W/Save16x16" ) );
         pReset->setIcon( QIcon( ":W/ResetToDefault" ) );
 
-        pLoad->setToolTip( tr("load brush palette") );
-        pSave->setToolTip( tr("save brush palette") );
-        pSaveAs->setToolTip( tr("save brush palette as") );
+        pLoad->setToolTip( tr("load color palette") );
+        pSave->setToolTip( tr("save color palette") );
+        pSaveAs->setToolTip( tr("save color palette as") );
         pReset->setToolTip( tr("reset to default") );
         pModified->setToolTip( tr("modified status") );
 
