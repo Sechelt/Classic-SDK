@@ -140,7 +140,7 @@ void WColorSpectrumWidget::paintEvent( QPaintEvent * )
  *  
  * We can then set the pixel Hue/Sat at the x,y position. 
  *  
- * Conersion is done using; 
+ * Conversion is done using; 
  *  
  * r = √ ( x2 + y2 ) 
  * θ = inverse-tangent ( y / x ) 
