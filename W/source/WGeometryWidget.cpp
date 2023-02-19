@@ -37,7 +37,7 @@ WGeometryWidget::WGeometryWidget( const QPointF &pointPos, const QSizeF &size, Q
         QGroupBox *     pGroupBox    = new QGroupBox( tr("Size"), this );
         QVBoxLayout *   pLayout      = new QVBoxLayout( pGroupBox );
 
-        pSizeWidget = new WSizeWidget( size, pGroupBox );
+        pSizeWidget = new WSizeWidgetDouble( size, pGroupBox );
         pLayout->addWidget( pSizeWidget );
 
         pLayoutTop->addWidget( pGroupBox );

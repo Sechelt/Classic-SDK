@@ -8,11 +8,11 @@
  * 
  * \author pharvey (7/25/20)
  */
-class WSizeWidget : public QWidget
+class WSizeWidgetDouble : public QWidget
 {
     Q_OBJECT
 public:
-    WSizeWidget( const QSizeF &size, QWidget *pParent, bool bToolBar = false );
+    WSizeWidgetDouble( const QSizeF &size, QWidget *pParent, bool bToolBar = false );
 
     void setValue( const QSizeF &size );
 
@@ -32,11 +32,11 @@ protected slots:
     void slotChanged();
 };
 
-class WSizeWidgetI : public QWidget
+class WSizeWidgetInt : public QWidget
 {
     Q_OBJECT
 public:
-    WSizeWidgetI( const QSize &size, QWidget *pParent, bool bToolBar = false );
+    WSizeWidgetInt( const QSize &size, QWidget *pParent, bool bToolBar = false );
 
     void setValue( const QSize &size );
 

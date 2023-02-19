@@ -2,7 +2,7 @@
 #include "WSizeWidget.h"
 #include "W.h"
 
-WSizeWidget::WSizeWidget( const QSizeF &size, QWidget *pParent, bool bToolBar )
+WSizeWidgetDouble::WSizeWidgetDouble( const QSizeF &size, QWidget *pParent, bool bToolBar )
     : QWidget( pParent )
 {
     pSpinBoxWidth = new QDoubleSpinBox( this );
@@ -33,23 +33,23 @@ WSizeWidget::WSizeWidget( const QSizeF &size, QWidget *pParent, bool bToolBar )
     }
 }
 
-void WSizeWidget::setValue( const QSizeF &size )
+void WSizeWidgetDouble::setValue( const QSizeF &size )
 {
     pSpinBoxWidth->setValue( size.width() );
     pSpinBoxHeight->setValue( size.height() );
 }
 
-QSizeF WSizeWidget::getValue() 
+QSizeF WSizeWidgetDouble::getValue() 
 { 
     return QSizeF( pSpinBoxWidth->value(), pSpinBoxHeight->value() ); 
 }
 
-void WSizeWidget::slotValue( const QSizeF &size )
+void WSizeWidgetDouble::slotValue( const QSizeF &size )
 {
     setValue( size );
 }
 
-void WSizeWidget::slotChanged()
+void WSizeWidgetDouble::slotChanged()
 {
     emit signalChanged( getValue() );
 }
@@ -58,7 +58,7 @@ void WSizeWidget::slotChanged()
 //
 //
 
-WSizeWidgetI::WSizeWidgetI( const QSize &size, QWidget *pParent, bool bToolBar )
+WSizeWidgetInt::WSizeWidgetInt( const QSize &size, QWidget *pParent, bool bToolBar )
     : QWidget( pParent )
 {
     pSpinBoxWidth = new QSpinBox( this );
@@ -89,23 +89,23 @@ WSizeWidgetI::WSizeWidgetI( const QSize &size, QWidget *pParent, bool bToolBar )
     }
 }
 
-void WSizeWidgetI::setValue( const QSize &size )
+void WSizeWidgetInt::setValue( const QSize &size )
 {
     pSpinBoxWidth->setValue( size.width() );
     pSpinBoxHeight->setValue( size.height() );
 }
 
-QSize WSizeWidgetI::getValue() 
+QSize WSizeWidgetInt::getValue() 
 { 
     return QSize( pSpinBoxWidth->value(), pSpinBoxHeight->value() ); 
 }
 
-void WSizeWidgetI::slotValue( const QSize &size )
+void WSizeWidgetInt::slotValue( const QSize &size )
 {
     setValue( size );
 }
 
-void WSizeWidgetI::slotChanged()
+void WSizeWidgetInt::slotChanged()
 {
     emit signalChanged( getValue() );
 }

@@ -4,13 +4,13 @@
 
 #include "WSizeWidget.h"
 
-WSizeDialogI::WSizeDialogI( const QSize &size, QWidget *pParent )
+WSizeDialogInt::WSizeDialogInt( const QSize &size, QWidget *pParent )
     : QDialog( pParent )
 {
     setWindowTitle( tr("Size") );
 
     QVBoxLayout *pLayout = new QVBoxLayout( this );
-    pSizeWidget = new WSizeWidgetI( size, this );
+    pSizeWidget = new WSizeWidgetInt( size, this );
     pLayout->addWidget( pSizeWidget ); 
 
     QDialogButtonBox *pButtonBox = new QDialogButtonBox( QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this );
@@ -20,18 +20,18 @@ WSizeDialogI::WSizeDialogI( const QSize &size, QWidget *pParent )
     connect( pButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject );
 }
 
-QSize WSizeDialogI::getSize() 
+QSize WSizeDialogInt::getSize() 
 { 
     return pSizeWidget->getValue(); 
 }
 
-QSize WSizeDialogI::getSize( bool *pOk, const QSize &size, QWidget *pParent )
+QSize WSizeDialogInt::getSize( bool *pOk, const QSize &size, QWidget *pParent )
 {
     QSize sizeOriginal = size;
 
     *pOk = true;
 
-    WSizeDialogI dialog( size, pParent );
+    WSizeDialogInt dialog( size, pParent );
     if ( dialog.exec() == QDialog::Accepted )
         return dialog.getSize();
 

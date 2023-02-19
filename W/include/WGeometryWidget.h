@@ -4,7 +4,7 @@
 #include "W.h"
 
 class WPosWidget;
-class WSizeWidget;
+class WSizeWidgetDouble;
 
 class WGeometryWidget : public QWidget
 {
@@ -28,7 +28,7 @@ public slots:
 
 protected:
     WPosWidget *  pPosWidget;
-    WSizeWidget * pSizeWidget;
+    WSizeWidgetDouble * pSizeWidget;
 };
 
 #endif 

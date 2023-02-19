@@ -3,19 +3,19 @@
 
 #include "W.h"
 
-class WSizeWidgetI;
+class WSizeWidgetInt;
 
-class WSizeDialogI : public QDialog
+class WSizeDialogInt : public QDialog
 {
     Q_OBJECT
 public:
-    WSizeDialogI( const QSize &size, QWidget *pParent = nullptr );
+    WSizeDialogInt( const QSize &size, QWidget *pParent = nullptr );
 
     QSize getSize();
     static QSize getSize( bool *pOk, const QSize &size, QWidget *pParent );
 
 protected:
-    WSizeWidgetI *pSizeWidget;
+    WSizeWidgetInt *pSizeWidget;
 };
 
 #endif 
