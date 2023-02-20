@@ -6,7 +6,7 @@ WZoomWidget::WZoomWidget( QWidget *pParent, int n )
 {
     nMin    = 10;
     nMax    = 300;
-    nInc    = 10;
+    nInc    = 1;        // need 1 so we can get back to exactly 100 after zoomed for Fit
     nZoom   = n;
 
     QHBoxLayout *pLayout = new QHBoxLayout( this );
@@ -22,7 +22,7 @@ WZoomWidget::WZoomWidget( QWidget *pParent, int n )
     pSlider->setMinimum( nMin );
     pSlider->setMaximum( nMax );
     pSlider->setSingleStep( nInc );
-    pSlider->setPageStep( nInc * 2 );
+    pSlider->setPageStep( nInc * 10 );
     pSlider->setValue( nZoom );
     pLayout->addWidget( pSlider );
 
@@ -63,11 +63,15 @@ void WZoomWidget::setMax( int n )
     pSlider->setMaximum( nMax );
 }
 
+void WZoomWidget::setPage( int n )
+{
+    pSlider->setPageStep( n );
+}
+
 void WZoomWidget::setInc( int n )
 {
     nInc = n;
     pSlider->setSingleStep( nInc );
-    pSlider->setPageStep( nInc * 2 );
 }
 
 void WZoomWidget::setZoom( int n )
@@ -95,6 +99,12 @@ int WZoomWidget::getZoom()
 WZoomWidget::FitTypes WZoomWidget::getFit()
 {
     return nFit;
+}
+
+void WZoomWidget::slotRefresh( WZoomWidget::FitTypes nFit, int nZoom )
+{
+    setZoom( nZoom );
+    setFit( nFit );
 }
 
 void WZoomWidget::slotSlider( int nValue )

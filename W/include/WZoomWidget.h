@@ -31,6 +31,7 @@ public:
 
     void setMin( int n );
     void setMax( int n );
+    void setPage( int n );
     void setInc( int n );
     void setZoom( int n );
     void setFit( FitTypes n );
@@ -43,6 +44,9 @@ public:
 
 signals:
     void signalZoom( WZoomWidget::FitTypes nFit, int nZoom );
+
+public slots:
+    void slotRefresh( WZoomWidget::FitTypes nFit, int nZoom );
 
 protected:
     int         nMin;
