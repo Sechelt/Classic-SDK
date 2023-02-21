@@ -233,8 +233,10 @@ QBrush WPersistNative::doLoadBrush( QDomElement *pdomElem )
 {
     QBrush brush;
 
+    Qt::BrushStyle nStyle = (Qt::BrushStyle)pdomElem->attribute( "Style" ).toInt();
+    QImage imageTexture;
+
     // domElem.setAttribute( "matrix", brush.matrix() );
-    brush.setStyle( (Qt::BrushStyle)pdomElem->attribute( "Style" ).toInt() );
     // domElem.setAttribute( "transform", brush.transform() );
 
     // load child nodes (of interest)
@@ -253,10 +255,13 @@ QBrush WPersistNative::doLoadBrush( QDomElement *pdomElem )
         if ( domElem.tagName() == "Color" )
             brush.setColor( doLoadColor( &domElem ) );
         else if ( domElem.tagName() == "Texture" )
-            brush.setTextureImage( doLoadImage( &domElem ) );
+           imageTexture = doLoadImage( &domElem );
 
         domNode = domNode.nextSibling();
     }
+
+    brush.setTextureImage( imageTexture );
+    brush.setStyle( nStyle );
 
     return brush;
 }
