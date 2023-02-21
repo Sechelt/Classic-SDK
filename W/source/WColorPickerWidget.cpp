@@ -53,7 +53,7 @@ void WColorSpectrumWidget::mousePressEvent( QMouseEvent *pEvent )
         color.getHsv( &nH, &nS, &nV, &nA );
         c.getHsv( &nHNew, &nSNew, &nVNew, &nANew );
 
-        color.setHsv( nHNew, nSNew, nV, nA );
+        color.setHsv( nHNew, nSNew, nVNew, nA );
     }
 
     emit signalValueChanged( color );
@@ -133,7 +133,7 @@ void WColorSpectrumWidget::paintEvent( QPaintEvent * )
  * \brief Convert Cartesian coordinates to Polar position. 
  *  
  * Cartesian is a simple x,y position (in this case - relative to the center of the circle). 
- * Polar is the angle and radius (distance). 
+ * Polar is the angle (radians) and radius (distance). 
  *  
  * We need to convert from Cartesian to Polar because we want the angle to calc the Hue and we 
  * want the radius to calc the Sat. 
@@ -317,7 +317,7 @@ WColorPickerWidget::WColorPickerWidget( const QColor &c, QWidget *pParent, bool 
 /*!
  * \brief Adopt changes to Hue and Sat made by the color picker. 
  *  
- * The color picker does not select Val or Alp but they are maintained in its current color.
+ * The spectrum DOES NOT select Val or Alp but they are maintained in its current color.
  * 
  * \author pharvey (12/4/22)
  * 

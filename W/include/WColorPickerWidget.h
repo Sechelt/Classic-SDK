@@ -32,7 +32,7 @@ private:
     struct Polar
     {
         qreal radius;
-        qreal angle;
+        qreal angle;    // radians
     };
 
     Polar cartesianToPolar(qreal x, qreal y);
@@ -53,6 +53,18 @@ protected:
     void paintEvent( QPaintEvent *pEvent ) override;
 };
 
+/*!
+ * \brief Color picker widget ie for a color picker dialog.
+ *  
+ * This combines; 
+ *  
+ *      - color spectrum widget for picking a color
+ *      - color palette widget for picking a color
+ *      - controls for selecting HSVA for picking a color
+ *      - color swatch to see example of current selection
+ *  
+ * \author pharvey (2/21/23)
+ */
 class WColorPickerWidget : public QWidget
 {
     Q_OBJECT
