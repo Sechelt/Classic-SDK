@@ -132,16 +132,29 @@ void WPaletteColor::doInit()
 
     // restore last palette
     QSettings settings;
-    stringFileName = settings.value( metaObject()->className() ).toString();
+    stringFileName = settings.value( WPALETTE_COLOR_DOC_CLASS ).toString();
 
     if ( stringFileName.isEmpty() )
     {
-        // Last palette used was a default. Any customizations would have been saved to the default file. Try to load it.
-        stringFileName = QDir::homePath() + "/" + metaObject()->className() + "." + metaObject()->className();
+        // Last palette used was a default. 
+        // Any customizations would have been saved to the default file. 
+        // Try to load it.
+        QString stringDir = QStandardPaths::writableLocation( QStandardPaths::ConfigLocation );
+        stringDir += ("/" SDK_ORG);
+
+        QDir dir;
+        if ( !dir.exists( stringDir ) ) 
+        {
+            dir.mkdir( stringDir );
+            stringDir += ("/" LIB_NAME);
+            dir.mkdir( stringDir );
+        }
+
+        stringFileName += stringDir + ("/" WPALETTE_COLOR_DOC_CLASS ".xml");
         if ( QFileInfo::exists( stringFileName ) )
         {
             doLoad( stringFileName );
-            stringFileName = QString();
+            stringFileName.clear();
         }
     }
     else
@@ -159,7 +172,10 @@ void WPaletteColor::doFini()
     // IF no file name THEN use default
     if ( stringFileName.isEmpty() )
     {
-        stringFileName = QDir::homePath() + "/" + metaObject()->className() + "." + metaObject()->className();
+        QString stringDir = QStandardPaths::writableLocation( QStandardPaths::ConfigLocation );
+        stringDir += ("/" SDK_ORG);
+        stringDir += ("/" LIB_NAME);
+        stringFileName += stringDir + ("/" WPALETTE_COLOR_DOC_CLASS ".xml");
     }
 
     doSave( stringFileName );
@@ -171,7 +187,7 @@ void WPaletteColor::slotLoad()
 
     QFileInfo   FileInfo( stringFileName );
     QString     stringDir       = FileInfo.absoluteFilePath();
-    QString     stringFilter    = tr("Colors") + " (*.WPaletteColor)";
+    QString     stringFilter    = tr("Colors") + " (*." WPALETTE_COLOR_DOC_CLASS ")";
     QString     s               = QFileDialog::getOpenFileName( qApp->activeWindow(), tr( "Open" ), stringDir, stringFilter );
     if ( s.isEmpty() ) return;
 
@@ -190,13 +206,13 @@ void WPaletteColor::slotSaveAs()
     QFileInfo   FileInfo( stringFileName );
     QString     stringWindowTitle   = tr("Save Color Palette As");
     QString     stringDir           = FileInfo.absoluteFilePath();
-    QString     stringFilter        = tr("Colors") + " (*.WPaletteColor)";
+    QString     stringFilter        = tr("Colors") + " (*." WPALETTE_COLOR_DOC_CLASS ")";
 
     QString s = QFileDialog::getSaveFileName( qApp->activeWindow(), stringWindowTitle, stringDir, stringFilter );
     if ( s.isEmpty() ) return;
 
     FileInfo.setFile( s );
-    if ( FileInfo.suffix().isEmpty() ) s += ".WPaletteColor";
+    if ( FileInfo.suffix().isEmpty() ) s += "." WPALETTE_COLOR_DOC_CLASS;
 
     doSave( s );
 }
