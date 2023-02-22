@@ -110,13 +110,21 @@ void WPaletteColorMatrix::paintEvent( QPaintEvent *pEvent )
         // IF we have color THEN draw using color ELSE draw with no color
         if ( nIndex < vectorColors.count() )
         {
-            brush.setColor( vectorColors[nIndex] );
+            if ( vectorColors[nIndex].alpha() == 0 )
+            {
+                painter.setBrush( QBrush( QImage( ":W/Transparent" ) ) );       // transparent so show checkerd pattern
+            }
+            else
+            {
+                painter.setBrush( QBrush( vectorColors[nIndex] ) );             // palette color
+            }
             nIndex++;
         }
         else
-            brush.setColor( QColor( Qt::transparent ) );
+        {
+            painter.setBrush( QBrush( QColor( Qt::transparent ) ) );            // NoOp
+        }
 
-        painter.setBrush( brush );
         painter.drawRect( nX, nY, CellWidth, CellHeight );
 
         // next cell
@@ -189,6 +197,10 @@ WPaletteColorWidget::WPaletteColorWidget( QWidget *pParent )
 
         connect( g_PaletteColors, SIGNAL(signalModifiedPalette()), SLOT(slotRefresh()) );
     }
+}
+
+void WPaletteColorWidget::slotRefresh( const QColor & )
+{
 }
 
 void WPaletteColorWidget::slotRefresh()

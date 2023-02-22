@@ -195,8 +195,17 @@ void WColorPickerSwatchWidget::slotColor( const QColor &c )
 void WColorPickerSwatchWidget::paintEvent( QPaintEvent * )
 {
     QPainter painter( this );
-    painter.setBrush( QBrush( color ) );
-    painter.drawRect( rect() );
+
+    if ( color.alpha() == 0 )
+    {
+        painter.setBrush( QBrush( QImage( ":W/Transparent" ) ) );
+        painter.drawRect( rect() );
+    }
+    else
+    {
+        painter.setBrush( QBrush( color ) );
+        painter.drawRect( rect() );
+    }
 }
 
 

@@ -51,6 +51,9 @@ public:
 signals:
     void signalSelected( const QColor & );
 
+public slots:
+    void slotRefresh( const QColor & );
+
 protected:
     QToolButton *   pLoad;  
     QToolButton *   pSave;  
