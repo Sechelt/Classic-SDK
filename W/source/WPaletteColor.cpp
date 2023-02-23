@@ -143,12 +143,9 @@ void WPaletteColor::doInit()
         stringDir += ("/" SDK_ORG);
 
         QDir dir;
-        if ( !dir.exists( stringDir ) ) 
-        {
-            dir.mkdir( stringDir );
-            stringDir += ("/" LIB_NAME);
-            dir.mkdir( stringDir );
-        }
+        if ( !dir.exists( stringDir ) ) dir.mkdir( stringDir );
+        stringDir += ("/" LIB_NAME);
+        if ( !dir.exists( stringDir ) ) dir.mkdir( stringDir );
 
         stringFileName += stringDir + ("/" WPALETTE_COLOR_DOC_CLASS ".xml");
         if ( QFileInfo::exists( stringFileName ) )
