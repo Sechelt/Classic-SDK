@@ -103,6 +103,7 @@
             Name="Header Files"
             Filters="*.h;*.H;*.hh;*.hpp;*.hxx;*.h++;*.inc;*.sh;*.cpy;*.if"
             GUID="{97ACCB9E-029B-4DD4-B82F-198C410B0843}">
+            <F N="../Classic-SDK.h"/>
             <F N="include/W.h"/>
             <F N="include/WBitmapButton.h"/>
             <F N="include/WBitmapWidget.h"/>
